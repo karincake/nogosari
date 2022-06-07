@@ -23,6 +23,6 @@ func (a *app) initDb() {
 		panic("Failed to connect to database!")
 	} else {
 		fmt.Println("Connected to database: " + db.Name())
-		a.DB = db
+		DB = db
 	}
 }

@@ -15,7 +15,6 @@ import (
 
 // main type
 type app struct {
-	DB *gorm.DB
 	// Mailer  mailer.Mailer
 	Logger logger.Logger
 
@@ -55,8 +54,9 @@ type app struct {
 // helper type
 type mi map[string]interface{}
 
-// Export the app
+// Export things
 var Nogo *app
+var DB *gorm.DB
 
 // var app *App
 func Run(routerIn *httprouter.Router) {

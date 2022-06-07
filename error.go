@@ -1,7 +1,6 @@
 package nogosari
 
 import (
-	"fmt"
 	"net/http"
 
 	hj "github.com/karincake/nogosari/httpjson"
@@ -20,16 +19,6 @@ func (a *app) serverErrorResponse(w http.ResponseWriter, r *http.Request, err er
 	a.logError(r, err)
 	message := "the server encountered a problem and could not process your request"
 	a.errorResponse(w, r, http.StatusInternalServerError, message)
-}
-
-func (a *app) notFoundResponse(w http.ResponseWriter, r *http.Request) {
-	message := "The requested resource could not be found"
-	a.errorResponse(w, r, http.StatusNotFound, message)
-}
-
-func (a *app) methodNotAllowedResponse(w http.ResponseWriter, r *http.Request) {
-	message := fmt.Sprintf("the %s method is not supported for this resource", r.Method)
-	a.errorResponse(w, r, http.StatusMethodNotAllowed, message)
 }
 
 func (a *app) badRequestResponse(w http.ResponseWriter, r *http.Request, err error) {
