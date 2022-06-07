@@ -1,14 +1,18 @@
 package nogosari
 
 import (
+	"flag"
 	"fmt"
 
 	"github.com/spf13/viper"
 )
 
 func (a *app) initConfig() {
-	viper.SetConfigName("api")
-	viper.AddConfigPath("../../conf")
+	var cfgPath string
+	flag.StringVar(&cfgPath, "config-path", ".", "Configuration path (default=./)")
+
+	viper.SetConfigName("config")
+	viper.AddConfigPath(cfgPath)
 	viper.AutomaticEnv()
 	viper.SetConfigType("yml")
 	viper.AutomaticEnv()
@@ -23,5 +27,5 @@ func (a *app) initConfig() {
 		panic(err)
 	}
 
-	fmt.Println("Config is loaded successfully")
+	fmt.Println("Loaded config successfully")
 }

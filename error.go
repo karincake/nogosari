@@ -4,18 +4,12 @@ import (
 	"fmt"
 	"net/http"
 
-	lg "github.com/karincake/nogosari/logger"
+	hj "github.com/karincake/nogosari/httpjson"
 )
 
-var loggerX *lg.Logger
-
-func SetLogger(logger *lg.Logger) {
-	loggerX = logger
-}
-
 func (a *app) errorResponse(w http.ResponseWriter, r *http.Request, status int, message interface{}) {
-	env := I{"error": message}
-	err := writeJSON(w, status, env, nil)
+	env := mi{"error": message}
+	err := hj.WriteJSON(w, status, env, nil)
 	if err != nil {
 		a.logError(r, err)
 		w.WriteHeader(500)
@@ -52,7 +46,7 @@ func (a *app) editConflictResponse(w http.ResponseWriter, r *http.Request) {
 }
 
 func (a *app) logError(r *http.Request, err error) {
-	a.logger.PrintError(err, map[string]string{
+	a.Logger.PrintError(err, map[string]string{
 		"request_method": r.Method,
 		"request_url":    r.URL.String(),
 	})

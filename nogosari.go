@@ -7,57 +7,63 @@ is main properties of a website.
 \*****************************************************************************/
 
 import (
-	"sync"
-
 	"github.com/julienschmidt/httprouter"
 	"github.com/karincake/nogosari/logger"
+	"gorm.io/gorm"
 	// "github.com/karincake/nogosari/mailer"
 )
 
+// main type
 type app struct {
-	name    string
-	env     string
-	version string
-	// mailer  mailer.Mailer
-	logger logger.Logger
+	DB *gorm.DB
+	// Mailer  mailer.Mailer
+	Logger logger.Logger
 
-	httpConf struct {
-		hst  string
-		port int
+	Name     string `yaml:"name"`
+	Env      string `yaml:"env"`
+	Version  string `yaml:"version"`
+	HttpConf struct {
+		Host string `yaml:"host"`
+		Port int    `yaml:"port"`
 	}
-	dbConf struct {
-		dsn          string
-		maxOpenConns int
-		maxIdleConns int
-		maxIdleTime  string
+	DbConf struct {
+		Dsn          string `yaml:"dsn"`
+		MaxOpenConns int    `yaml:"maxOpenConns"`
+		MaxIdleConns int    `yaml:"maxIdleConns"`
+		MaxIdleTime  string `yaml:"maxIdleTime"`
+		Dialect      string `yaml:"dialect"`
 	}
-	mailerConf struct {
-		smtp_host     string
-		smtp_port     int
-		smtp_username string
-		smtp_password string
-		sender        string
-		templateDir   string
+	MailerConf struct {
+		Smtp_host     string `yaml:"smtp_host"`
+		Smtp_port     int    `yaml:"smtp_port"`
+		Smtp_username string `yaml:"smtp_username"`
+		Smtp_password string `yaml:"smtp_password"`
+		Sender        string `yaml:"sender"`
+		TemplateDir   string `yaml:"templateDir"`
 	}
-	reqLimiterConf struct {
-		enabled bool
-		rps     float64
-		burst   int
+	ReqLimiterConf struct {
+		Enabled bool    `yaml:"enabled"`
+		Rps     float64 `yaml:"rps"`
+		Burst   int     `yaml:"burst"`
 	}
-	loggerConf struct {
-		level  int8
-		output string
+	LoggerConf struct {
+		Level  int8   `yaml:"level"`
+		Output string `yaml:"output"`
 	}
 }
 
-var wgX sync.WaitGroup
+// helper type
+type mi map[string]interface{}
+
+// Export the app
+var Nogo *app
 
 // var app *App
 func Run(routerIn *httprouter.Router) {
-	a := &app{}
-	a.initConfig()
-	// a.initLogger()
-	// a.initDb()
+	Nogo = &app{}
+	Nogo.initConfig()
+	Nogo.initLogger()
+	Nogo.initDb()
 	// a.initMailer()
-	// a.initHttp(routerIn)
+	Nogo.initHttp(routerIn)
 }
