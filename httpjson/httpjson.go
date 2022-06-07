@@ -1,36 +1,14 @@
-package nogosari
+package httpjson
 
 import (
-	// "fmt"
 	"encoding/json"
 	"errors"
 	"fmt"
 	"io"
 	"net/http"
-	"reflect"
 )
 
-// to simplify casting
-type I map[string]interface{} // similar to gin.H
-type S map[string]string
-
-// others
-func StructToMap(in interface{}) map[string]interface{} {
-	out := make(map[string]interface{})
-
-	v := reflect.ValueOf(in)
-	if v.Kind() != reflect.Struct {
-		return nil
-	}
-
-	typ := v.Type()
-	for i := 0; i < v.NumField(); i++ {
-		out[typ.Field(i).Name] = v.Field(i).Interface()
-	}
-	return out
-}
-
-func writeJSON(w http.ResponseWriter, status int, data interface{}, headers http.Header) error {
+func WriteJSON(w http.ResponseWriter, status int, data interface{}, headers http.Header) error {
 	js, err := json.Marshal(data)
 	if err != nil {
 		return err
@@ -45,7 +23,7 @@ func writeJSON(w http.ResponseWriter, status int, data interface{}, headers http
 	return nil
 }
 
-func readJSON(w http.ResponseWriter, r *http.Request, dst interface{}) error {
+func ReadJSON(w http.ResponseWriter, r *http.Request, dst interface{}) error {
 	err := json.NewDecoder(r.Body).Decode(dst)
 	if err != nil {
 		var syntaxError *json.SyntaxError
