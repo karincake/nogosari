@@ -33,7 +33,7 @@ func (a *app) initHttp(router *httprouter.Router) {
 		quit := make(chan os.Signal, 1)
 		signal.Notify(quit, syscall.SIGINT, syscall.SIGTERM)
 		s := <-quit
-		a.Logger.PrintInfo("caught signal", map[string]string{
+		Logger.PrintInfo("caught signal", map[string]string{
 			"signal": s.String(),
 		})
 		ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
@@ -44,7 +44,7 @@ func (a *app) initHttp(router *httprouter.Router) {
 			shutdownError <- err
 		}
 
-		a.Logger.PrintInfo("completing background tasks", map[string]string{
+		Logger.PrintInfo("completing background tasks", map[string]string{
 			"addr": srv.Addr,
 		})
 
@@ -52,20 +52,20 @@ func (a *app) initHttp(router *httprouter.Router) {
 		shutdownError <- nil
 	}()
 
-	a.Logger.PrintInfo("starting server", map[string]string{
+	Logger.PrintInfo("starting server", map[string]string{
 		"addr": srv.Addr,
 	})
 	err := srv.ListenAndServe()
 	if !errors.Is(err, http.ErrServerClosed) {
-		a.Logger.PrintFatal(err, nil)
+		Logger.PrintFatal(err, nil)
 	}
 
 	err = <-shutdownError
 	if err != nil {
-		a.Logger.PrintFatal(err, nil)
+		Logger.PrintFatal(err, nil)
 	}
 
-	a.Logger.PrintInfo("stopped server", map[string]string{
+	Logger.PrintInfo("stopped server", map[string]string{
 		"addr": srv.Addr,
 	})
 }

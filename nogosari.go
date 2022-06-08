@@ -13,57 +13,64 @@ import (
 	// "github.com/karincake/nogosari/mailer"
 )
 
-// main type
-type app struct {
-	// Mailer  mailer.Mailer
-	Logger logger.Logger
-
-	Name     string `yaml:"name"`
-	Env      string `yaml:"env"`
-	Version  string `yaml:"version"`
-	HttpConf struct {
-		Host string `yaml:"host"`
-		Port int    `yaml:"port"`
-	}
-	DbConf struct {
-		Dsn          string `yaml:"dsn"`
-		MaxOpenConns int    `yaml:"maxOpenConns"`
-		MaxIdleConns int    `yaml:"maxIdleConns"`
-		MaxIdleTime  string `yaml:"maxIdleTime"`
-		Dialect      string `yaml:"dialect"`
-	}
-	MailerConf struct {
-		Smtp_host     string `yaml:"smtp_host"`
-		Smtp_port     int    `yaml:"smtp_port"`
-		Smtp_username string `yaml:"smtp_username"`
-		Smtp_password string `yaml:"smtp_password"`
-		Sender        string `yaml:"sender"`
-		TemplateDir   string `yaml:"templateDir"`
-	}
-	ReqLimiterConf struct {
-		Enabled bool    `yaml:"enabled"`
-		Rps     float64 `yaml:"rps"`
-		Burst   int     `yaml:"burst"`
-	}
-	LoggerConf struct {
-		Level  int8   `yaml:"level"`
-		Output string `yaml:"output"`
-	}
-}
-
-// helper type
-type mi map[string]interface{}
-
-// Export things
+// export package vars
 var Nogo *app
 var DB *gorm.DB
+var Logger logger.Logger
+
+// internal package vars, for a simpler access
+var httpConfX httpConf
+var dbConfX dbConf
+var mailerConfX mailerConf
+var loggerConfX loggerConf
 
 // var app *App
 func Run(routerIn *httprouter.Router) {
 	Nogo = &app{}
+	Nogo.HttpConf = &httpConfX
+	Nogo.DbConf = &dbConfX
+	Nogo.MailerConf = &mailerConfX
+	Nogo.LoggerConf = &loggerConfX
+
 	Nogo.initConfig()
 	Nogo.initLogger()
 	Nogo.initDb()
 	// a.initMailer()
 	Nogo.initHttp(routerIn)
 }
+
+// func GetAppInfo() string {
+// 	temp, err := json.Marshal(map[string]string{
+// 		"Name":    Nogo.Name,
+// 		"Env":     Nogo.Env,
+// 		"Version": Nogo.Version,
+// 	})
+// 	if err == nil {
+// 		return string(temp[:])
+// 	}
+// 	return ""
+// }
+
+// func GetHttpConfInfo() string {
+// 	temp, err := json.Marshal(httpConfX)
+// 	if err == nil {
+// 		return string(temp[:])
+// 	}
+// 	return ""
+// }
+
+// func GetDBConfInfo() string {
+// 	temp, err := json.Marshal(dbConfX)
+// 	if err == nil {
+// 		return string(temp[:])
+// 	}
+// 	return ""
+// }
+
+// func GetMailerConfInfo() string {
+// 	temp, err := json.Marshal(dbConfX)
+// 	if err == nil {
+// 		return string(temp[:])
+// 	}
+// 	return ""
+// }

@@ -35,7 +35,7 @@ func (a *app) editConflictResponse(w http.ResponseWriter, r *http.Request) {
 }
 
 func (a *app) logError(r *http.Request, err error) {
-	a.Logger.PrintError(err, map[string]string{
+	Logger.PrintError(err, map[string]string{
 		"request_method": r.Method,
 		"request_url":    r.URL.String(),
 	})

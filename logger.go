@@ -7,5 +7,5 @@ import (
 )
 
 func (a *app) initLogger() {
-	a.Logger = *logger.New(os.Stdout, logger.Level(a.LoggerConf.Level))
+	Logger = *logger.New(os.Stdout, logger.Level(a.LoggerConf.Level))
 }
