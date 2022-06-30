@@ -8,6 +8,14 @@ import (
 	"gorm.io/gorm"
 )
 
+type dbConf struct {
+	Dsn          string `yaml:"dsn"`
+	MaxOpenConns int    `yaml:"maxOpenConns"`
+	MaxIdleConns int    `yaml:"maxIdleConns"`
+	MaxIdleTime  string `yaml:"maxIdleTime"`
+	Dialect      string `yaml:"dialect"`
+}
+
 func (a *app) initDb() {
 	if (a.DbConf.Dialect == "") || (a.DbConf.Dsn == "") {
 		return

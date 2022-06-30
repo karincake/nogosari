@@ -13,6 +13,17 @@ import (
 	// "github.com/karincake/nogosari/mailer"
 )
 
+type app struct {
+	Name            string `yaml:"name"`
+	Env             string `yaml:"env"`
+	Version         string `yaml:"version"`
+	HttpConf        *httpConf
+	DbConf          *dbConf
+	MailerConf      *mailerConf
+	RateLimiterConf *rateLimiterConf
+	LoggerConf      *loggerConf
+}
+
 // export package vars
 var Nogo *app
 var DB *gorm.DB
@@ -32,45 +43,10 @@ func Run(routerIn *httprouter.Router) {
 	Nogo.MailerConf = &mailerConfX
 	Nogo.LoggerConf = &loggerConfX
 
+	// like to call manually to make it clear
 	Nogo.initConfig()
 	Nogo.initLogger()
 	Nogo.initDb()
 	// a.initMailer()
 	Nogo.initHttp(routerIn)
 }
-
-// func GetAppInfo() string {
-// 	temp, err := json.Marshal(map[string]string{
-// 		"Name":    Nogo.Name,
-// 		"Env":     Nogo.Env,
-// 		"Version": Nogo.Version,
-// 	})
-// 	if err == nil {
-// 		return string(temp[:])
-// 	}
-// 	return ""
-// }
-
-// func GetHttpConfInfo() string {
-// 	temp, err := json.Marshal(httpConfX)
-// 	if err == nil {
-// 		return string(temp[:])
-// 	}
-// 	return ""
-// }
-
-// func GetDBConfInfo() string {
-// 	temp, err := json.Marshal(dbConfX)
-// 	if err == nil {
-// 		return string(temp[:])
-// 	}
-// 	return ""
-// }
-
-// func GetMailerConfInfo() string {
-// 	temp, err := json.Marshal(dbConfX)
-// 	if err == nil {
-// 		return string(temp[:])
-// 	}
-// 	return ""
-// }

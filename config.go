@@ -7,6 +7,10 @@ import (
 	"github.com/spf13/viper"
 )
 
+// nvm
+// func init() {
+// }
+
 func (a *app) initConfig() {
 	var cfgPath string
 	flag.StringVar(&cfgPath, "config-path", ".", "Configuration path (default=./)")

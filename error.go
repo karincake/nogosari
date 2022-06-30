@@ -4,10 +4,11 @@ import (
 	"net/http"
 
 	hj "github.com/karincake/nogosari/httpjson"
+	t "github.com/karincake/nogosari/types"
 )
 
 func (a *app) errorResponse(w http.ResponseWriter, r *http.Request, status int, message interface{}) {
-	env := mi{"error": message}
+	env := t.II{"error": message}
 	err := hj.WriteJSON(w, status, env, nil)
 	if err != nil {
 		a.logError(r, err)
