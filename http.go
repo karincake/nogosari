@@ -13,6 +13,7 @@ import (
 
 	"github.com/julienschmidt/httprouter"
 	hj "github.com/karincake/nogosari/httpjson"
+	t "github.com/karincake/nogosari/types"
 )
 
 type httpConf struct {
@@ -77,7 +78,7 @@ func (a *app) initHttp(router *httprouter.Router) {
 
 // bonus health check
 func (a *app) healthcheckHandler(w http.ResponseWriter, r *http.Request) {
-	env := iI{
+	env := t.II{
 		"status": "available",
 		"system_info": map[string]string{
 			"environment": a.Env,
