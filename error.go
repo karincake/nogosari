@@ -7,7 +7,7 @@ import (
 )
 
 func (a *app) errorResponse(w http.ResponseWriter, r *http.Request, status int, message interface{}) {
-	env := mi{"error": message}
+	env := iI{"error": message}
 	err := hj.WriteJSON(w, status, env, nil)
 	if err != nil {
 		a.logError(r, err)
