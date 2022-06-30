@@ -14,9 +14,10 @@ import (
 )
 
 type app struct {
-	Name            string `yaml:"name"`
-	Env             string `yaml:"env"`
-	Version         string `yaml:"version"`
+	CodeName        string
+	FullName        string
+	Env             string
+	Version         string
 	HttpConf        *httpConf
 	DbConf          *dbConf
 	MailerConf      *mailerConf
@@ -35,15 +36,16 @@ var dbConfX dbConf
 var mailerConfX mailerConf
 var loggerConfX loggerConf
 
-// var app *App
-func Run(routerIn *httprouter.Router) {
+// app starter
+func Run(appCodeName string, routerIn *httprouter.Router) {
 	Nogo = &app{}
+	Nogo.CodeName = appCodeName
 	Nogo.HttpConf = &httpConfX
 	Nogo.DbConf = &dbConfX
 	Nogo.MailerConf = &mailerConfX
 	Nogo.LoggerConf = &loggerConfX
 
-	// like to call manually to make it clear
+	// like to call manually to make it clear of what's happening
 	Nogo.initConfig()
 	Nogo.initLogger()
 	Nogo.initDb()

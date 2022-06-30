@@ -49,7 +49,7 @@ func (a *app) rateLimit(next http.Handler) http.Handler {
 
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		// Only carry out the check if rate limiting is enabled.
-		if a.RateLimiterConf.Enabled {
+		if a.RateLimiterConf != nil && a.RateLimiterConf.Enabled {
 			ip, _, err := net.SplitHostPort(r.RemoteAddr)
 			if err != nil {
 				a.serverErrorResponse(w, r, err)

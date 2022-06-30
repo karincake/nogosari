@@ -17,8 +17,8 @@ import (
 )
 
 type httpConf struct {
-	Host string `yaml:"host"`
-	Port int    `yaml:"port"`
+	Host string
+	Port int
 }
 
 var wg sync.WaitGroup
