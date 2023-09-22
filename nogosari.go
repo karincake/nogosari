@@ -1,64 +1,43 @@
 package nogosari
 
 import (
-	"html"
 	"strings"
 )
 
 // Tokenize remove symbols and URLs from s, then split it into words
 func Tokenize(s string) []string {
 	// Normalize s and remove all symbol
-	s = strings.ToLower(s)
-	s = html.UnescapeString(s)
-	s = rxURL.ReplaceAllString(s, "")
-	s = rxEmail.ReplaceAllString(s, "")
-	s = rxTwitter.ReplaceAllString(s, "")
-	s = rxEscapeStr.ReplaceAllString(s, "")
-	s = rxSymbol.ReplaceAllString(s, " ")
-	s = strings.TrimSpace(s)
+	s = normalize(s)
 
 	return strings.Fields(s)
 }
 
-// Similar to tokenize, except it returns map[string]uint for indexing purpose.
+// Full version of tokenize which includes symbol removal
+func FullTokenize(s string) []string {
+	// Normalize s and remove all symbol
+	s = normalize(s)
+	s = rxSymbol.ReplaceAllString(s, " ")
+
+	return strings.Fields(s)
+}
+
+// Similar to tokenize, except it excludes symbols and returns map[string]uint
+// for indexing purpose.
 // The `uint16` value indicates the word count
 func Index(s string) map[string]uint16 {
 	// Normalize s and remove all symbol
-	s = strings.ToLower(s)
-	s = html.UnescapeString(s)
-	s = rxURL.ReplaceAllString(s, "")
-	s = rxEmail.ReplaceAllString(s, "")
-	s = rxTwitter.ReplaceAllString(s, "")
-	s = rxEscapeStr.ReplaceAllString(s, "")
+	s = normalize(s)
+
+	return index(s)
+}
+
+// Full version of index which includes symbol removal
+func FullIndex(s string) map[string]uint16 {
+	// Normalize s and remove all symbol
+	s = normalize(s)
 	s = rxSymbol.ReplaceAllString(s, " ")
-	s = strings.TrimSpace(s)
 
-	words := make(map[string]uint16)
-	found := false
-	lastI := 0
-	sb := []byte(s)
-	for i := range sb {
-		if sb[i] == ' ' {
-			if !found {
-				continue
-			}
-			word := string(sb[lastI:i])
-			lastI = i + 1
-			if _, ok := words[word]; !ok {
-				words[word] = 1
-			} else {
-				words[word] = 1 + words[word]
-			}
-			found = false
-		} else {
-			if !found {
-				lastI = i
-			}
-			found = true
-		}
-	}
-
-	return words
+	return index(s)
 }
 
 // Convert a word back to its base form based on the given dictionary
