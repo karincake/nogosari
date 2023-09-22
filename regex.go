@@ -6,11 +6,15 @@ import "regexp"
 
 var (
 	// Regex for tokenizer
-	rxURL       = regexp.MustCompile(`(?i)(www\.|https?|s?ftp)\S+`)
-	rxEmail     = regexp.MustCompile(`(?i)\S+@\S+`)
-	rxTwitter   = regexp.MustCompile(`(?i)(@|#)\S+`)
-	rxEscapeStr = regexp.MustCompile(`(?i)&.*;`)
-	rxSymbol    = regexp.MustCompile(`(?i)[^a-z\s]`)
+	// The original regex uses `(?i)` which is not needed since tokenize
+	// convert all of the characters into lowercase. This removal also increase
+	// performance which is worth it.
+	rxURL       = regexp.MustCompile(`(www\.|https?|s?ftp)\S+`)
+	rxEmail     = regexp.MustCompile(`\S+@\S+`)
+	rxTwitter   = regexp.MustCompile(`(@|#)\S+`)
+	rxEscapeStr = regexp.MustCompile(`&.*;`)
+	rxPeriod    = regexp.MustCompile(`, |; |\. |.$`)        // in regards of dropping the symbols removal
+	rxSymbol    = regexp.MustCompile(`[^a-z\s[^a-z\s,.;]]`) // dropped by default
 
 	// Regex for stemmer
 	rxPrefixFirst = regexp.MustCompile(`^(be.+lah|be.+an|me.+i|di.+i|pe.+i|ter.+i)$`)

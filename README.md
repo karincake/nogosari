@@ -1,6 +1,12 @@
 # Nogosari - NLP for Bahasa
-A NLP package for bahasa, based on go-sastrawi (https://github.com/RadhiFadlillah/go-sastrawi),
-with several modifications to make it procedural, and additional features for advance functionality.
+A NLP package for bahasa, based on go-sastrawi
+(https://github.com/RadhiFadlillah/go-sastrawi), with several modifications
+to make it procedural, and additional features for advance functionality.
+It is also worth to note that the symbol removal feature is dropped by default,
+instead it cleans up the small break and period symbol like coma
+followed by space, semicolon followed by space, point followed by sepace and
+point at the end of sentence. However, a full tokenize function is available
+for use
 
 ## Basic Concept
 There are two things we need to understand:
