@@ -13,6 +13,7 @@ func normalize(s string) string {
 	s = rxEmail.ReplaceAllString(s, "")
 	s = rxTwitter.ReplaceAllString(s, "")
 	s = rxEscapeStr.ReplaceAllString(s, "")
+	s = rxPeriod.ReplaceAllString(s, " ") // replaced with space instead of empty string
 	s = strings.TrimSpace(s)
 
 	return s

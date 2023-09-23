@@ -20,7 +20,7 @@ func removeSuffix(word string) (string, string) {
 	return suffix, result
 }
 
-func loopPengembalianAkhiran(originalWord string, suffixes []string, words map[string]uint16) (bool, string) {
+func loopPengembalianAkhiran(originalWord string, suffixes []string, words map[string]any) (bool, string) {
 	lenSuffixes := 0
 	for _, suffix := range suffixes {
 		lenSuffixes += len(suffix)
@@ -47,7 +47,7 @@ func loopPengembalianAkhiran(originalWord string, suffixes []string, words map[s
 	return false, originalWord
 }
 
-func removePrefixes(word string, words map[string]uint16) (bool, string) {
+func removePrefixes(word string, words map[string]any) (bool, string) {
 	originalWord := word
 	currentPrefix := ""
 	removedPrefix := ""
