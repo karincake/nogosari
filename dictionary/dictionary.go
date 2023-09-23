@@ -60,7 +60,7 @@ func CreateFromFile(fn string, binary bool) map[string]uint16 {
 }
 
 // Similar to CreateFromFile, but without word-function information
-func CreatePlainFromFile(fn string) map[string]struct{} {
+func CreatePlainFromFile(fn string) map[string]any {
 	// stopwords
 	f, err := os.OpenFile(fn, os.O_RDONLY, os.ModePerm)
 	if err != nil {
@@ -68,7 +68,7 @@ func CreatePlainFromFile(fn string) map[string]struct{} {
 	}
 	defer f.Close()
 
-	words := make(map[string]struct{})
+	words := make(map[string]any)
 	sc := bufio.NewScanner(f)
 
 	for sc.Scan() {

@@ -41,7 +41,8 @@ func FullIndex(s string) map[string]uint16 {
 }
 
 // Convert a word back to its base form based on the given dictionary
-func Stem(word string, words map[string]uint16) string {
+// words uses any to cover the result of both Tokenize and Index
+func Stem(word string, words map[string]any) string {
 	word = strings.ToLower(word)
 
 	var (
