@@ -45,6 +45,9 @@ func index(s string) map[string]uint16 {
 			found = true
 		}
 	}
+	if len(sb)-lastI > 0 {
+		words[string(sb[lastI:])] = 1
+	}
 
 	return words
 }
