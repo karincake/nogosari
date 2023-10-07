@@ -13,7 +13,7 @@ var (
 	rxEmail     = regexp.MustCompile(`\S+@\S+`)
 	rxTwitter   = regexp.MustCompile(`(@|#)\S+`)
 	rxEscapeStr = regexp.MustCompile(`&.*;`)
-	rxPeriod    = regexp.MustCompile(`, |; |\. |.$`)        // in regards of dropping the symbols removal
+	rxPeriod    = regexp.MustCompile(`, |; |\. |\.$`)       // in regards of dropping the symbols removal
 	rxSymbol    = regexp.MustCompile(`[^a-z\s[^a-z\s,.;]]`) // dropped by default
 
 	// Regex for stemmer
