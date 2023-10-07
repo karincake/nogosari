@@ -26,3 +26,31 @@ Numeric, Articula
 
 Note that word-functions are meant to be used in sentence or phrase structure
 recognition. As for the basic task like stemming, it will not be used.
+
+## Usage
+Installation
+
+`go get github.com/karincake/nogosari`
+
+Create reference and use it in stemmer
+```
+func main() {
+    // generate words reference using dictionary
+    // note that you can make it simpler by creating array of strings
+    // then loop it and create map of struct
+    ref := map[string]struct{}{
+        "lorem": strunct{}{},
+        "ipsum": strunct{}{},
+        "dolor": strunct{}{},
+        "sit": strunct{}{},
+        "amet": strunct{}{},
+    }
+
+
+    // The string to stem
+    s := "Lorem ipsum adalah sebuah teks yang digunakan untuk uji coba"
+
+    // Process it
+    ss := nogosari.Stem(s, ref)
+}
+```
